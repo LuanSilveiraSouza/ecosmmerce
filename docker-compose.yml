@@ -9,10 +9,26 @@ services:
         ports:
             - ${MAIN_PORT}:${MAIN_PORT}
         networks:
-            - service-net
+            - webnet
         volumes:
+            - ./main-service:/app
             - /app/node_modules
         restart: on-failure
 
+    postgres-db:
+        image: postgres:alpine
+        env_file: ./.env
+        environment:
+            POSTGRES_DB: ${PG_DB}
+            POSTGRES_USER: ${PG_USER}
+            POSTGRES_PASSWORD: ${PG_PASS} 
+            PG_DATA: /var/lib/postgresql/data
+        networks:
+            - webnet
+        volumes:
+            - pgdata:/var/lib/postgresql/data
 networks:
-    service-net:
+    webnet:
+
+volumes:
+    pgdata:
