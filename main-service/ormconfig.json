@@ -3,8 +3,8 @@
   "host": "localhost",
   "port": 5432,
   "entities": [],
-  "migrations": ["migration/*.js"],
+  "migrations": ["src/migration/*.js"],
   "cli": {
-    "migrationsDir": "migration"
+    "migrationsDir": "src/migration"
   }
 }
