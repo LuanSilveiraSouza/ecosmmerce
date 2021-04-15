@@ -1,8 +1,8 @@
 {
   "type": "postgres",
-  "host": "localhost",
+  "host": "postgres-db",
   "port": 5432,
-  "entities": [],
+  "entities": ["dist/**/*.entity.js"],
   "migrations": ["src/migration/*.js"],
   "cli": {
     "migrationsDir": "src/migration"

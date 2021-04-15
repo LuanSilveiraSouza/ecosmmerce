@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import { createHash } from 'crypto';
 import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('user')
@@ -14,7 +14,7 @@ export class UserEntity {
 
   @BeforeInsert()
   async hashPass() {
-    const hash = crypto.createHash('sha256');
+    const hash = createHash('sha256');
 
     const data = hash.update(this.password, 'utf-8');
 
