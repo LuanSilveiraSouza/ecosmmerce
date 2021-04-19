@@ -11,7 +11,25 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  getUser(): IUser {
-    return { name: 'John', password: '12345' };
+  async findAll(): Promise<UserEntity[]> {
+    return await this.userRepository.find();
+  }
+
+  async findOne(name: string): Promise<UserEntity> {
+    return await this.userRepository.findOne({ name });
+  }
+
+  async create(user: IUser): Promise<IUser> {
+    const newUser = new UserEntity();
+    newUser.name = user.name;
+    newUser.password = user.password;
+
+    const savedUser = await this.userRepository.save(newUser);
+    return savedUser;
+  }
+
+  async delete(name: string): Promise<void> {
+    await this.userRepository.delete({ name });
+    return;
   }
 }

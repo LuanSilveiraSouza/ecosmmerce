@@ -4,6 +4,6 @@ import { Controller, Get } from '@nestjs/common';
 export class AppController {
   @Get()
   health(): any {
-    return { msg: 'Systems up' };
+    return { msg: `System's up` };
   }
 }
