@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection, getConnectionOptions } from 'typeorm';
+import { AppController } from './app.controller';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -16,7 +17,7 @@ import { UserModule } from './user/user.module';
     }),
     UserModule,
   ],
-  controllers: [],
+  controllers: [AppController],
   providers: [],
 })
 export class AppModule {
