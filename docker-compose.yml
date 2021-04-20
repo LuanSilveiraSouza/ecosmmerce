@@ -25,6 +25,10 @@ services:
             POSTGRES_USER: ${PG_USER}
             POSTGRES_PASSWORD: ${PG_PASS} 
             PG_DATA: /var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        expose:
+        - '5432'
         networks:
             - webnet
         volumes:
