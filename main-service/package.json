@@ -19,9 +19,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migration:run": "PG_HOST=localhost npx typeorm migration:run",
-    "migration:show": "PG_HOST=localhost npx typeorm migration:show",
-    "migration:revert": "PG_HOST=localhost npx typeorm migration:revert"
+    "migration:run": "PG_HOST=localhost ts-node ./node_modules/typeorm/cli.js migration:run",
+    "migration:show": "PG_HOST=localhost ts-node ./node_modules/typeorm/cli.js migration:show",
+    "migration:revert": "PG_HOST=localhost ts-node ./node_modules/typeorm/cli.js migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.15",

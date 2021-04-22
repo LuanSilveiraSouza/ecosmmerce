@@ -33,6 +33,9 @@ services:
             - webnet
         volumes:
             - pgdata:/var/lib/postgresql/data
+
+
+            
 networks:
     webnet:
 

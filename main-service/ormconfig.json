@@ -1,9 +1,0 @@
-{
-  "type": "postgres",
-  "port": 5432,
-  "entities": ["dist/**/*.entity.js"],
-  "migrations": ["src/migration/*.js"],
-  "cli": {
-    "migrationsDir": "src/migration"
-  }
-}
