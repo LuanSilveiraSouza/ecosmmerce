@@ -7,8 +7,8 @@ export class CreateTicketTable1619115160972 implements MigrationInterface {
           id SERIAL PRIMARY KEY,
           price DECIMAL(12, 2) NOT NULL,
           date TIMESTAMP NOT NULL,
-          travel_id INT NOT NULL,
-          FOREIGN KEY (travel_id) REFERENCES travels(id)
+          travel_id SERIAL,
+          CONSTRAINT ticket_travel FOREIGN KEY(travel_id) REFERENCES travels(id)
         );
       `);
   }
