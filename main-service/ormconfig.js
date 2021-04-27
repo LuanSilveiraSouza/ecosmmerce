@@ -12,7 +12,7 @@ module.exports = {
   username: PG_USER,
   password: PG_PASS,
   database: PG_DB,
-  synchronize: NODE_ENV != 'production',
+  synchronize: false,
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migration/*{.ts,.js}'],
   cli: {

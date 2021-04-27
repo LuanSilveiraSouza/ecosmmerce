@@ -6,9 +6,12 @@ export class CreateTicketTable1619115160972 implements MigrationInterface {
         CREATE TABLE IF NOT EXISTS tickets (
           id SERIAL PRIMARY KEY,
           price DECIMAL(12, 2) NOT NULL,
-          date TIMESTAMP NOT NULL,
-          travel_id SERIAL,
-          CONSTRAINT ticket_travel FOREIGN KEY(travel_id) REFERENCES travels(id)
+          start_date TIMESTAMP NOT NULL,
+          end_date TIMESTAMP NOT NULL,
+          total INT,
+          purchased INT,
+          travel_id INT,
+          CONSTRAINT fk_ticket_travel FOREIGN KEY(travel_id) REFERENCES travels(id)
         );
       `);
   }
