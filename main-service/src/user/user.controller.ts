@@ -27,7 +27,7 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @Post()
   async create(@Body() userData: CreateUserDto) {
-    const userExists = await this.userService.findOne(userData.name);
+    const userExists = await this.userService.findByName(userData.name);
 
     if (userExists) {
       throw new HttpException(
@@ -52,7 +52,7 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @Post('/login')
   async login(@Body() userData: CreateUserDto) {
-    const user = await this.userService.findOne(userData.name);
+    const user = await this.userService.findByName(userData.name);
 
     if (!user) {
       throw new HttpException(

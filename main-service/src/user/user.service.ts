@@ -16,8 +16,12 @@ export class UserService {
     return await this.userRepository.find();
   }
 
-  async findOne(name: string): Promise<UserEntity> {
+  async findByName(name: string): Promise<UserEntity> {
     return await this.userRepository.findOne({ name });
+  }
+
+  async findById(id: number): Promise<UserEntity> {
+    return await this.userRepository.findOne({ id });
   }
 
   async create({ name, password }): Promise<IUser> {
