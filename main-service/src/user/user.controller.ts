@@ -10,7 +10,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { hash } from '../common/hasher';
+import { createHash } from 'crypto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './user.entity';
 import { UserService } from './user.service';
@@ -63,7 +63,11 @@ export class UserController {
       );
     }
 
-    if (user.password !== hash(userData.password)) {
+    const hashedPassword = createHash('sha256')
+      .update(userData.password, 'utf-8')
+      .digest('hex');
+
+    if (user.password !== hashedPassword) {
       throw new HttpException(
         {
           message: `Wrong password`,
