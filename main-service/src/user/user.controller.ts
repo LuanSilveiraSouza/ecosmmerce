@@ -10,6 +10,7 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { hash } from '../common/hasher';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './user.entity';
 import { UserService } from './user.service';
@@ -37,11 +38,42 @@ export class UserController {
       );
     }
 
-    return this.userService.create(userData);
+    return this.userService.create({
+      name: userData.name,
+      password: userData.password,
+    });
   }
 
   @Delete('/:name')
   async delete(@Param() params) {
     return await this.userService.delete(params.name);
+  }
+
+  @UsePipes(new ValidationPipe())
+  @Post('/login')
+  async login(@Body() userData: CreateUserDto) {
+    const user = await this.userService.findOne(userData.name);
+
+    if (!user) {
+      throw new HttpException(
+        {
+          message: `User don't exists`,
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    if (user.password !== hash(userData.password)) {
+      throw new HttpException(
+        {
+          message: `Wrong password`,
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    const token = await this.userService.generateToken(user);
+
+    return { token };
   }
 }
