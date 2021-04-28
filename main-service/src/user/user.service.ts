@@ -45,7 +45,7 @@ export class UserService {
       {
         id: user.id,
         name: user.name,
-        exp: date.getTime() * 1000 * 60 * 60 * 24 * 3,
+        exp: date.getTime() + 1000 * 60 * 60 * 24 * 3,
       },
       process.env.JWT_SECRET,
     );
