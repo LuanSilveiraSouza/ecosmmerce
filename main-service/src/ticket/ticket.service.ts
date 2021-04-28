@@ -11,6 +11,8 @@ export class TicketService {
   ) {}
 
   async findAll(): Promise<TicketEntity[]> {
-    return await this.ticketRepository.find();
+    return await this.ticketRepository.find({
+      relations: ['travel'],
+    });
   }
 }

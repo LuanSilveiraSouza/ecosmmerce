@@ -13,6 +13,7 @@ module.exports = {
   password: PG_PASS,
   database: PG_DB,
   synchronize: false,
+  migrationsRun: true,
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migration/*{.ts,.js}'],
   cli: {
