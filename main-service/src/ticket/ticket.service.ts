@@ -15,4 +15,11 @@ export class TicketService {
       relations: ['travel'],
     });
   }
+
+  async findById(id: number): Promise<TicketEntity> {
+    return await this.ticketRepository.findOne({
+      relations: ['travel'],
+      where: { id: id },
+    });
+  }
 }

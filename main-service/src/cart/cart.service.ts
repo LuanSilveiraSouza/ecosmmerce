@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TicketEntity } from 'src/ticket/ticket.entity';
-import { UserEntity } from 'src/user/user.entity';
+import { TicketService } from 'src/ticket/ticket.service';
+import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { CartEntity } from './cart.entity';
 import { CartItemEntity } from './cartItem.entity';
@@ -9,10 +9,8 @@ import { CartItemEntity } from './cartItem.entity';
 @Injectable()
 export class CartService {
   constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
-    @InjectRepository(TicketEntity)
-    private readonly ticketRepository: Repository<TicketEntity>,
+    private readonly userService: UserService,
+    private readonly ticketService: TicketService,
     @InjectRepository(CartEntity)
     private readonly cartRepository: Repository<CartEntity>,
     @InjectRepository(CartItemEntity)
@@ -20,28 +18,17 @@ export class CartService {
   ) {}
 
   async findByUserId(id: number): Promise<CartEntity> {
-    let cart = await this.cartRepository.findOne({
-      relations: ['user', 'cartItems'],
-      where: { 'user.id': id },
-    });
+    const user = await this.userService.findById(id);
 
-    if (!cart) {
-      const user = await this.userRepository.findOne({ id });
-
-      if (!user) {
-        return null;
-      }
-
-      cart = new CartEntity();
-      cart.user = user;
-      await this.cartRepository.save(cart);
+    if (!user) {
+      return null;
     }
 
-    return cart;
+    return user.cart;
   }
 
   async addItem({ user_id, ticket_id, qtd }): Promise<CartItemEntity> {
-    const ticket = await this.ticketRepository.findOne({ id: ticket_id });
+    const ticket = await this.ticketService.findById(ticket_id);
     if (!ticket) {
       return null;
     }
@@ -60,6 +47,9 @@ export class CartService {
     item.price = ticket.price * qtd + transportCost;
 
     await this.cartItemRepository.save(item);
+
+    cart.total_price += item.price;
+    await this.cartRepository.save(cart);
 
     return item;
   }

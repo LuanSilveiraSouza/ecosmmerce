@@ -15,6 +15,7 @@ import { UserModule } from 'src/user/user.module';
   imports: [TypeOrmModule.forFeature([TicketEntity]), UserModule],
   providers: [TicketService],
   controllers: [TicketController],
+  exports: [TicketService],
 })
 export class TicketModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

@@ -9,7 +9,7 @@ export class CreateCartItemTable1619693653238 implements MigrationInterface {
               qtd INT,
               cart_id INT,
               CONSTRAINT fk_item_cart FOREIGN KEY(cart_id) REFERENCES carts(id),
-              ticket_it INT,
+              ticket_id INT,
               CONSTRAINT fk_item_ticket FOREIGN KEY(ticket_id) REFERENCES tickets(id)
             );
           `);

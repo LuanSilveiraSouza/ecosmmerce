@@ -1,5 +1,12 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { createHash } from 'crypto';
+import { CartEntity } from 'src/cart/cart.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -18,4 +25,7 @@ export class UserEntity {
       .update(this.password, 'utf-8')
       .digest('hex');
   }
+
+  @OneToOne(() => CartEntity, (cart) => cart.user)
+  cart: CartEntity;
 }
