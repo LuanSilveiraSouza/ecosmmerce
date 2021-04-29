@@ -29,7 +29,7 @@ export class CartModule implements NestModule {
       .forRoutes(
         { path: 'carts', method: RequestMethod.GET },
         { path: 'carts', method: RequestMethod.POST },
-        { path: 'carts', method: RequestMethod.DELETE },
+        { path: 'carts/:id', method: RequestMethod.DELETE },
       );
   }
 }

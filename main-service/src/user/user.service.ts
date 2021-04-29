@@ -39,8 +39,6 @@ export class UserService {
     const newUser = new UserEntity();
     newUser.name = name;
     newUser.password = password;
-    newUser.cart = new CartEntity();
-    newUser.cart.total_price = 0;
 
     const savedUser = await this.userRepository.save(newUser);
     return savedUser;

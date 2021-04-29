@@ -24,6 +24,13 @@ export class CartService {
       return null;
     }
 
+    if (!user.cart) {
+      const cart = new CartEntity();
+      cart.total_price = 0;
+      cart.user = user;
+      await this.cartRepository.save(cart);
+    }
+
     return user.cart;
   }
 
@@ -34,21 +41,20 @@ export class CartService {
     }
 
     const cart = await this.findByUserId(user_id);
+
     if (!cart) {
       return null;
     }
 
     const item = new CartItemEntity();
-    item.cart = cart;
     item.ticket = ticket;
     item.qtd = qtd;
     // TODO: Option to include transport cost in the travel
-    const transportCost = 0;
-    item.price = ticket.price * qtd + transportCost;
-
+    item.price = ticket.price * qtd;
     await this.cartItemRepository.save(item);
 
-    cart.total_price += item.price;
+    cart.cartItems.push(item);
+    cart.total_price = Number(cart.total_price) + item.price;
     await this.cartRepository.save(cart);
 
     return item;
@@ -60,12 +66,17 @@ export class CartService {
       return null;
     }
 
-    const item = await this.cartItemRepository.findOne({ id });
+    const item = await this.cartItemRepository.findOne(
+      { id },
+      { relations: ['cart'] },
+    );
     if (!item) {
       return null;
     }
 
     if (item.cart.id == cart.id) {
+      cart.total_price = Number(cart.total_price) - item.price;
+      await this.cartRepository.save(cart);
       return await this.cartItemRepository.remove(item);
     }
     return null;
