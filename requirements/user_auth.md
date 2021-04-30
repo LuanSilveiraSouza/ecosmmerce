@@ -1,9 +1,10 @@
-# User Login
+# User Authentication
 
 > ## Success cases
 
 1. :heavy_check_mark: User sends requests with Bearer token header
 2. :heavy_check_mark: Server validates the header
+2. :heavy_check_mark: Server stores the user info in the request
 3. :heavy_check_mark: Server pass foward to the requested resource 
 
 > ## Exceptions

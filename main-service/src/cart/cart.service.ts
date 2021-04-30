@@ -29,6 +29,7 @@ export class CartService {
             cart.total_price = 0;
             cart.user = user;
             await this.cartRepository.save(cart);
+            return cart;
         }
 
         return user.cart;

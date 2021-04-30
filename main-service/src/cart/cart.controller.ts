@@ -59,9 +59,20 @@ export class CartController {
 
     @Delete('/:id')
     async deleteItem(@Req() req: Request, @Param() params) {
-        return this.cartService.deleteItem({
+        const result = await this.cartService.deleteItem({
             user_id: req['user'].id,
             id: params.id,
         });
+
+        if (!result) {
+            throw new HttpException(
+                {
+                    message: `Cart or item don't exists`,
+                },
+                HttpStatus.BAD_REQUEST,
+            );
+        }
+
+        return result;
     }
 }
