@@ -1,33 +1,21 @@
 package main
 
 import (
-	"context"
 	"fmt"
 
-	"github.com/go-redis/redis/v8"
+	"github.com/LuanSilveiraSouza/ecosmmerce/transport-service/transport"
 )
 
 func main() {
-	ctx := context.Background()
+	transport.Init()
 
-	client := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "",
-		DB:       0,
-	})
-
-	val, err := client.Get(ctx, "test").Result()
+	result, err := transport.CalcTransport(
+		&transport.Request{Origin: "Earth", Destiny: "Mercury"},
+	)
 
 	if err != nil {
-		err = client.Set(ctx, "test", "testing redis", 0).Err()
-		if err != nil {
-			panic(err)
-		}
-	} else {
-		fmt.Println(val)
+		panic(err)
 	}
 
-	val, err = client.Get(ctx, "test").Result()
-
-	fmt.Println(val)
+	fmt.Println(result)
 }
