@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package transport;
+option go_package="/";
+
+message TransportRequest {
+    string origin = 1;
+    string destiny = 2;
+}
+
+message TransportResponse {
+    string origin = 1;
+    string destiny = 2;
+    string cost = 3;
+    bool cache = 4;
+}
+
+service TransportService {
+    rpc CalcTransport(TransportRequest) returns (TransportResponse){};
+}
