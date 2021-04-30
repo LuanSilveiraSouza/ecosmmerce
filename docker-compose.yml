@@ -33,7 +33,16 @@ services:
             - webnet
         volumes:
             - pgdata:/var/lib/postgresql/data
-
+            
+    redis:
+        image: redis:alpine
+        hostname: redis
+        ports:
+            - "6379:6379"
+        expose:
+            - '6379'
+        networks:
+            - webnet
 
             
 networks:
