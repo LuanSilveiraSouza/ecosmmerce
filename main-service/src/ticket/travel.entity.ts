@@ -5,18 +5,18 @@ import { TicketEntity } from './ticket.entity';
 
 @Entity('travels')
 export class TravelEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  title: string;
+    @Column()
+    title: string;
 
-  @Column()
-  destiny: string;
+    @Column()
+    destiny: string;
 
-  @Column()
-  description: string;
+    @Column()
+    description: string;
 
-  @OneToMany((type) => TicketEntity, (ticket) => ticket.travel)
-  tickets: TicketEntity[];
+    @OneToMany((type) => TicketEntity, (ticket) => ticket.travel)
+    tickets: TicketEntity[];
 }

@@ -2,31 +2,31 @@
 
 import { TicketEntity } from 'src/ticket/ticket.entity';
 import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
+    Column,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToOne,
+    PrimaryGeneratedColumn,
 } from 'typeorm';
 import { CartEntity } from './cart.entity';
 
 @Entity('cart_items')
 export class CartItemEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  price: number;
+    @Column()
+    price: number;
 
-  @Column()
-  qtd: number;
+    @Column()
+    qtd: number;
 
-  @ManyToOne((type) => CartEntity, (cart) => cart.cartItems)
-  @JoinColumn({ name: 'cart_id' })
-  cart: CartEntity;
+    @ManyToOne((type) => CartEntity, (cart) => cart.cartItems)
+    @JoinColumn({ name: 'cart_id' })
+    cart: CartEntity;
 
-  @OneToOne((type) => TicketEntity)
-  @JoinColumn({ name: 'ticket_id' })
-  ticket: TicketEntity;
+    @OneToOne((type) => TicketEntity)
+    @JoinColumn({ name: 'ticket_id' })
+    ticket: TicketEntity;
 }

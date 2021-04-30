@@ -5,21 +5,21 @@ import { TicketEntity } from './ticket.entity';
 
 @Injectable()
 export class TicketService {
-  constructor(
-    @InjectRepository(TicketEntity)
-    private readonly ticketRepository: Repository<TicketEntity>,
-  ) {}
+    constructor(
+        @InjectRepository(TicketEntity)
+        private readonly ticketRepository: Repository<TicketEntity>,
+    ) {}
 
-  async findAll(): Promise<TicketEntity[]> {
-    return await this.ticketRepository.find({
-      relations: ['travel'],
-    });
-  }
+    async findAll(): Promise<TicketEntity[]> {
+        return await this.ticketRepository.find({
+            relations: ['travel'],
+        });
+    }
 
-  async findById(id: number): Promise<TicketEntity> {
-    return await this.ticketRepository.findOne({
-      relations: ['travel'],
-      where: { id: id },
-    });
-  }
+    async findById(id: number): Promise<TicketEntity> {
+        return await this.ticketRepository.findOne({
+            relations: ['travel'],
+            where: { id: id },
+        });
+    }
 }

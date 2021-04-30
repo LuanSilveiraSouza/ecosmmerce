@@ -4,10 +4,10 @@ import { TicketService } from './ticket.service';
 
 @Controller('tickets')
 export class TicketController {
-  constructor(private readonly ticketService: TicketService) {}
+    constructor(private readonly ticketService: TicketService) {}
 
-  @Get()
-  async findAll(): Promise<TicketEntity[]> {
-    return await this.ticketService.findAll();
-  }
+    @Get()
+    async findAll(): Promise<TicketEntity[]> {
+        return await this.ticketService.findAll();
+    }
 }
