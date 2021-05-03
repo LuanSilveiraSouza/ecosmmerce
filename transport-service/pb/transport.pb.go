@@ -4,13 +4,9 @@
 // 	protoc        v3.15.8
 // source: transport.proto
 
-package __
+package pb
 
 import (
-	context "context"
-	grpc "google.golang.org/grpc"
-	codes "google.golang.org/grpc/codes"
-	status "google.golang.org/grpc/status"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -172,8 +168,8 @@ var file_transport_proto_rawDesc = []byte{
 	0x70, 0x6f, 0x72, 0x74, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x65,
 	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x74, 0x72, 0x61, 0x6e, 0x73, 0x70, 0x6f, 0x72,
 	0x74, 0x2e, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x70, 0x6f, 0x72, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x03, 0x5a, 0x01, 0x2f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x05, 0x5a, 0x03, 0x2f, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -252,84 +248,4 @@ func file_transport_proto_init() {
 	file_transport_proto_rawDesc = nil
 	file_transport_proto_goTypes = nil
 	file_transport_proto_depIdxs = nil
-}
-
-// Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ grpc.ClientConnInterface
-
-// This is a compile-time assertion to ensure that this generated file
-// is compatible with the grpc package it is being compiled against.
-const _ = grpc.SupportPackageIsVersion6
-
-// TransportServiceClient is the client API for TransportService service.
-//
-// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type TransportServiceClient interface {
-	CalcTransport(ctx context.Context, in *TransportRequest, opts ...grpc.CallOption) (*TransportResponse, error)
-}
-
-type transportServiceClient struct {
-	cc grpc.ClientConnInterface
-}
-
-func NewTransportServiceClient(cc grpc.ClientConnInterface) TransportServiceClient {
-	return &transportServiceClient{cc}
-}
-
-func (c *transportServiceClient) CalcTransport(ctx context.Context, in *TransportRequest, opts ...grpc.CallOption) (*TransportResponse, error) {
-	out := new(TransportResponse)
-	err := c.cc.Invoke(ctx, "/transport.TransportService/CalcTransport", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// TransportServiceServer is the server API for TransportService service.
-type TransportServiceServer interface {
-	CalcTransport(context.Context, *TransportRequest) (*TransportResponse, error)
-}
-
-// UnimplementedTransportServiceServer can be embedded to have forward compatible implementations.
-type UnimplementedTransportServiceServer struct {
-}
-
-func (*UnimplementedTransportServiceServer) CalcTransport(context.Context, *TransportRequest) (*TransportResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CalcTransport not implemented")
-}
-
-func RegisterTransportServiceServer(s *grpc.Server, srv TransportServiceServer) {
-	s.RegisterService(&_TransportService_serviceDesc, srv)
-}
-
-func _TransportService_CalcTransport_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TransportRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(TransportServiceServer).CalcTransport(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/transport.TransportService/CalcTransport",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TransportServiceServer).CalcTransport(ctx, req.(*TransportRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-var _TransportService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "transport.TransportService",
-	HandlerType: (*TransportServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "CalcTransport",
-			Handler:    _TransportService_CalcTransport_Handler,
-		},
-	},
-	Streams:  []grpc.StreamDesc{},
-	Metadata: "transport.proto",
 }
