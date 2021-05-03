@@ -2,20 +2,25 @@ package main
 
 import (
 	"fmt"
+	"net"
 
+	"github.com/LuanSilveiraSouza/ecosmmerce/transport-service/pb"
 	"github.com/LuanSilveiraSouza/ecosmmerce/transport-service/transport"
+	"google.golang.org/grpc"
 )
 
 func main() {
-	transport.Init()
-
-	result, err := transport.CalcTransport(
-		&transport.Request{Origin: "Earth", Destiny: "Mercury"},
-	)
+	server, err := net.Listen("tcp", "localhost:3131")
 
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println("GRPC server running")
 
-	fmt.Println(result)
+	grpcServer := grpc.NewServer()
+	pb.RegisterTransportServiceServer(grpcServer, &transport.TransportService{})
+
+	if err := grpcServer.Serve(server); err != nil {
+		panic(err)
+	}
 }
