@@ -1,13 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Client, ClientGrpc } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TicketService } from 'src/ticket/ticket.service';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { CartEntity } from './cart.entity';
 import { CartItemEntity } from './cartItem.entity';
+import { grpcOptions } from './pb/grpc.options';
+import { ITransportService } from './pb/transport.interface';
 
 @Injectable()
-export class CartService {
+export class CartService implements OnModuleInit {
     constructor(
         private readonly userService: UserService,
         private readonly ticketService: TicketService,
@@ -16,6 +19,17 @@ export class CartService {
         @InjectRepository(CartItemEntity)
         private readonly cartItemRepository: Repository<CartItemEntity>,
     ) {}
+
+    @Client(grpcOptions)
+    private client: ClientGrpc;
+
+    private grpcService: ITransportService;
+
+    onModuleInit() {
+        this.grpcService = this.client.getService<ITransportService>(
+            'CartService',
+        );
+    }
 
     async findByUserId(id: number): Promise<CartEntity> {
         const user = await this.userService.findById(id);
@@ -31,6 +45,13 @@ export class CartService {
             await this.cartRepository.save(cart);
             return cart;
         }
+
+        console.log(
+            this.grpcService.calcTransport({
+                origin: 'earth',
+                destiny: 'mars',
+            }),
+        );
 
         return user.cart;
     }

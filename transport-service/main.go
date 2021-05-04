@@ -7,6 +7,7 @@ import (
 	"github.com/LuanSilveiraSouza/ecosmmerce/transport-service/pb"
 	"github.com/LuanSilveiraSouza/ecosmmerce/transport-service/transport"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
@@ -19,6 +20,7 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterTransportServiceServer(grpcServer, &transport.TransportService{})
+	reflection.Register(grpcServer)
 
 	if err := grpcServer.Serve(server); err != nil {
 		panic(err)
