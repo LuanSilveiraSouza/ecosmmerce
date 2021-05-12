@@ -32,6 +32,11 @@ E-Cosmmerce is a E-Commerce platform to buy trips to planets around the Cosmos :
 
 # :rocket: How to Run
 
+```bash
+$ protoc -I=proto/ --go_out=./transport-service --go-grpc_out=./transport-service  proto/transport.proto
+
+```
+
 # :bug: Contribution, Bugs and Issues
 
 Feel free to open new issues and colaborate with others issues in [E-Cosmmerce Issues](https://github.com/LuanSilveiraSouza/ecosmmerce/issues)

@@ -12,7 +12,6 @@ services:
             - webnet
         volumes:
             - ./main-service:/app
-            - /app/node_modules
         restart: on-failure
         depends_on:
             - postgres-db
