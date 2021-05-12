@@ -31,7 +31,7 @@ func NewTransportServiceClient(cc grpc.ClientConnInterface) TransportServiceClie
 
 func (c *transportServiceClient) CalcTransport(ctx context.Context, in *TransportRequest, opts ...grpc.CallOption) (*TransportResponse, error) {
 	out := new(TransportResponse)
-	err := c.cc.Invoke(ctx, "/pb.TransportService/CalcTransport", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/transport.TransportService/CalcTransport", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func _TransportService_CalcTransport_Handler(srv interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/pb.TransportService/CalcTransport",
+		FullMethod: "/transport.TransportService/CalcTransport",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TransportServiceServer).CalcTransport(ctx, req.(*TransportRequest))
@@ -88,7 +88,7 @@ func _TransportService_CalcTransport_Handler(srv interface{}, ctx context.Contex
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var TransportService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.TransportService",
+	ServiceName: "transport.TransportService",
 	HandlerType: (*TransportServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

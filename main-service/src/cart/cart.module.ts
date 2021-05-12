@@ -12,20 +12,12 @@ import { AuthMiddleware } from 'src/common/middlewares/auth.middleware';
 import { CartItemEntity } from './cartItem.entity';
 import { TicketModule } from 'src/ticket/ticket.module';
 import { UserModule } from 'src/user/user.module';
-import { ClientsModule } from '@nestjs/microservices';
-import { grpcOptions } from './pb/grpc.options';
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([CartEntity, CartItemEntity]),
         UserModule,
         TicketModule,
-        ClientsModule.register([
-            {
-                name: 'TRANSPORT_PACKAGE',
-                ...grpcOptions,
-            },
-        ]),
     ],
     providers: [CartService],
     controllers: [CartController],

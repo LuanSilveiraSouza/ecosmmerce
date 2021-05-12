@@ -1,12 +1,13 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { ClientGrpc } from '@nestjs/microservices';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Client, ClientGrpc } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TicketService } from 'src/ticket/ticket.service';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { CartEntity } from './cart.entity';
 import { CartItemEntity } from './cartItem.entity';
-import { ITransportService } from './pb/transport.interface';
+import { grpcOptions } from './pb/grpc.options';
+import { TransportService } from './pb/transport.interface';
 
 @Injectable()
 export class CartService implements OnModuleInit {
@@ -17,13 +18,13 @@ export class CartService implements OnModuleInit {
         private readonly cartRepository: Repository<CartEntity>,
         @InjectRepository(CartItemEntity)
         private readonly cartItemRepository: Repository<CartItemEntity>,
-        @Inject('TRANSPORT_PACKAGE') private readonly client: ClientGrpc,
     ) {}
 
-    private grpcService: ITransportService;
+    @Client(grpcOptions) private readonly client: ClientGrpc;
+    private grpcService: TransportService;
 
     onModuleInit() {
-        this.grpcService = this.client.getService<ITransportService>(
+        this.grpcService = this.client.getService<TransportService>(
             'TransportService',
         );
     }
@@ -44,10 +45,12 @@ export class CartService implements OnModuleInit {
         }
 
         console.log(
-            this.grpcService.calcTransport({
-                origin: 'earth',
-                destiny: 'mars',
-            }),
+            await this.grpcService
+                .calcTransport({
+                    origin: 'earth',
+                    destiny: 'mars',
+                })
+                .toPromise(),
         );
 
         return user.cart;
