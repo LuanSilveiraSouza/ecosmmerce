@@ -4,7 +4,7 @@ services:
     main-service:
         container_name: main-service
         build: './main-service'
-        command: npm run start:debug
+        command: npm run start
         env_file: ./.env
         ports:
             - ${MAIN_PORT}:${MAIN_PORT}
@@ -15,6 +15,21 @@ services:
         restart: on-failure
         depends_on:
             - postgres-db
+
+    transport-service:
+        container_name: transport-service
+        build: './transport-service'
+        command: go run main.go
+        env_file: ./.env
+        ports:
+            - ${GRPC_PORT}:${GRPC_PORT}
+        networks:
+            - webnet
+        volumes:
+            - ./transport-service:/go/src/
+        restart: on-failure
+        depends_on:
+            - redis
 
     postgres-db:
         image: postgres:alpine

@@ -11,18 +11,19 @@ import (
 )
 
 func main() {
-	server, err := net.Listen("tcp", "localhost:3131")
+	server, err := net.Listen("tcp", fmt.Sprintf(":%d", 3131))
 
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("GRPC server running")
 
 	grpcServer := grpc.NewServer()
 	pb.RegisterTransportServiceServer(grpcServer, &transport.TransportService{})
 	reflection.Register(grpcServer)
 
-	if err := grpcServer.Serve(server); err != nil {
+	err = grpcServer.Serve(server)
+
+	if err != nil {
 		panic(err)
 	}
 }
