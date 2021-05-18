@@ -4,7 +4,7 @@ services:
     main-service:
         container_name: main-service
         build: './main-service'
-        command: npm run start
+        command: npm run start:debug
         env_file: ./.env
         ports:
             - ${MAIN_PORT}:${MAIN_PORT}

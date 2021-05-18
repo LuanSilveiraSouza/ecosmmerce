@@ -44,15 +44,14 @@ export class CartService implements OnModuleInit {
             return cart;
         }
 
-        this.grpcService
-            .calcTransport({
-                origin: 'earth',
-                destiny: 'mars',
-            })
-            .subscribe(
-                (data) => console.log(data),
-                (error) => console.error(error),
-            );
+        console.log(
+            await this.grpcService
+                .calcTransport({
+                    origin: 'earth',
+                    destiny: 'mars',
+                })
+                .toPromise(),
+        );
 
         return user.cart;
     }
