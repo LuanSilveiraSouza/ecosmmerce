@@ -1,14 +1,26 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Client, ClientGrpc } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
+import { grpcOptions } from 'src/common/pb/grpc.options';
+import { TransportService } from 'src/common/pb/transport.interface';
 import { Repository } from 'typeorm';
 import { TicketEntity } from './ticket.entity';
 
 @Injectable()
-export class TicketService {
+export class TicketService implements OnModuleInit {
     constructor(
         @InjectRepository(TicketEntity)
         private readonly ticketRepository: Repository<TicketEntity>,
     ) {}
+
+    @Client(grpcOptions) private readonly client: ClientGrpc;
+    private grpcService: TransportService;
+
+    onModuleInit() {
+        this.grpcService = this.client.getService<TransportService>(
+            'TransportService',
+        );
+    }
 
     async findAll(): Promise<TicketEntity[]> {
         return await this.ticketRepository.find({
@@ -16,10 +28,23 @@ export class TicketService {
         });
     }
 
-    async findById(id: number): Promise<TicketEntity> {
-        return await this.ticketRepository.findOne({
+    async findById(id: number, origin?: string): Promise<any> {
+        const ticket = await this.ticketRepository.findOne({
             relations: ['travel'],
             where: { id: id },
         });
+
+        if (origin) {
+            const transportCost = await this.grpcService
+                .calcTransport({
+                    origin,
+                    destiny: ticket.travel.destiny,
+                })
+                .toPromise();
+
+            return { ...ticket, transport_cost: transportCost };
+        }
+
+        return ticket;
     }
 }

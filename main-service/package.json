@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "copyfiles": "cp ./src/cart/pb/transport.proto ./dist/cart/pb/",
+    "copyfiles": "cp ./src/common/pb/transport.proto ./dist/common/pb/",
     "prebuild": "rimraf dist",
     "build": "nest build && npm run copyfiles",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
