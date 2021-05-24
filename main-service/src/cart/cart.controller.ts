@@ -39,11 +39,12 @@ export class CartController {
     @UsePipes(new ValidationPipe())
     @Post()
     async addItem(@Req() req: Request, @Body() itemData: AddItemDto) {
-        const result = this.cartService.addItem({
-            user_id: req['user'].id,
-            qtd: itemData.qtd,
-            ticket_id: itemData.ticket_id,
-        });
+        const result = this.cartService.addItem(
+            req['user'].id,
+            itemData.ticket_id,
+            itemData.qtd,
+            itemData.origin,
+        );
 
         if (!result) {
             throw new HttpException(

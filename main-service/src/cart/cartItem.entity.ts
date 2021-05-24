@@ -20,6 +20,9 @@ export class CartItemEntity {
     price: number;
 
     @Column()
+    transport_price: number;
+
+    @Column()
     qtd: number;
 
     @ManyToOne((type) => CartEntity, (cart) => cart.cartItems)

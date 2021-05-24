@@ -6,11 +6,12 @@ export class CreateCartItemTable1619693653238 implements MigrationInterface {
 						CREATE TABLE IF NOT EXISTS cart_items (
 							id SERIAL PRIMARY KEY,
 							price DECIMAL(12, 2) NOT NULL,
+							transport_price DECIMAL(12, 2),
 							qtd INT,
 							cart_id INT,
 							CONSTRAINT fk_item_cart FOREIGN KEY(cart_id) REFERENCES carts(id),
 							ticket_id INT,
-							CONSTRAINT fk_item_ticket FOREIGN KEY(ticket_id) REFERENCES tickets(id),
+							CONSTRAINT fk_item_ticket FOREIGN KEY(ticket_id) REFERENCES tickets(id)
 						);
 					`);
     }

@@ -35,14 +35,14 @@ export class TicketService implements OnModuleInit {
         });
 
         if (origin) {
-            const transportCost = await this.grpcService
+            const transportPrice = await this.grpcService
                 .calcTransport({
                     origin,
                     destiny: ticket.travel.destiny,
                 })
                 .toPromise();
 
-            return { ...ticket, transport_cost: transportCost };
+            return { ...ticket, transport_price: transportPrice };
         }
 
         return ticket;

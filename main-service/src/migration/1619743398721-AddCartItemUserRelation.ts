@@ -15,7 +15,7 @@ export class AddCartItemUserRelation1619743398721
         await queryRunner.query(`
 				ALTER TABLE cart_items
 						DROP CONSTRAINT fk_item_user,
-						DROP COLUMN user_id INT;
+						DROP COLUMN user_id;
 	`);
     }
 }

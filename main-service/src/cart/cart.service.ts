@@ -6,8 +6,8 @@ import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { CartEntity } from './cart.entity';
 import { CartItemEntity } from './cartItem.entity';
-import { grpcOptions } from './pb/grpc.options';
-import { TransportService } from './pb/transport.interface';
+import { grpcOptions } from '../common/pb/grpc.options';
+import { TransportService } from '../common/pb/transport.interface';
 
 @Injectable()
 export class CartService implements OnModuleInit {
@@ -44,19 +44,15 @@ export class CartService implements OnModuleInit {
             return cart;
         }
 
-        console.log(
-            await this.grpcService
-                .calcTransport({
-                    origin: 'earth',
-                    destiny: 'mars',
-                })
-                .toPromise(),
-        );
-
         return user.cart;
     }
 
-    async addItem({ user_id, ticket_id, qtd }): Promise<CartItemEntity> {
+    async addItem(
+        user_id: number,
+        ticket_id: number,
+        qtd: number,
+        origin?: string,
+    ): Promise<CartItemEntity> {
         const ticket = await this.ticketService.findById(ticket_id);
         if (!ticket) {
             return null;
@@ -71,7 +67,17 @@ export class CartService implements OnModuleInit {
         const item = new CartItemEntity();
         item.ticket = ticket;
         item.qtd = qtd;
-        // TODO: Option to include transport cost in the travel
+        item.transport_price = 0;
+        if (origin) {
+            const transportPrice = await this.grpcService
+                .calcTransport({
+                    origin,
+                    destiny: ticket.travel.destiny,
+                })
+                .toPromise();
+
+            item.transport_price = parseFloat(transportPrice.cost);
+        }
         item.price = ticket.price * qtd;
         await this.cartItemRepository.save(item);
 

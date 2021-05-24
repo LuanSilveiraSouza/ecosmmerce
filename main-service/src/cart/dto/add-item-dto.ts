@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class AddItemDto {
     @IsNotEmpty()
@@ -8,4 +8,8 @@ export class AddItemDto {
     @IsNotEmpty()
     @IsNumber()
     readonly qtd: number;
+
+    @IsOptional()
+    @IsString()
+    readonly origin?: string;
 }
