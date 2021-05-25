@@ -13,6 +13,8 @@ import (
 func main() {
 	server, err := net.Listen("tcp", fmt.Sprintf(":%d", 3131))
 
+	transport.Init()
+
 	if err != nil {
 		panic(err)
 	}

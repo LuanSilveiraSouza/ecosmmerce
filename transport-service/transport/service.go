@@ -11,7 +11,11 @@ type TransportService struct {
 }
 
 func (s *TransportService) CalcTransport(ctx context.Context, req *pb.TransportRequest) (*pb.TransportResponse, error) {
-	response := pb.TransportResponse{Origin: req.Origin, Destiny: req.Destiny, Cost: "100", Cache: true}
+	response, err := CalcTransport(req)
 
-	return &response, nil
+	if err != nil {
+		return &pb.TransportResponse{Origin: req.Origin, Destiny: req.Destiny, Cost: "100", Cache: true}, nil
+	}
+
+	return response, nil
 }
