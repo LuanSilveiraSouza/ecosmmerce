@@ -17,7 +17,10 @@
 
     Returns **400** "User or ticket don't exists"
 
+2. :x: In case of the ticket doesn't have available quantity
 
-2. :x: In case of server error
+    Returns **409** "The ticket have only X available entries"
+
+3. :x: In case of server error
 
     Returns **500** "Internal Server Error"

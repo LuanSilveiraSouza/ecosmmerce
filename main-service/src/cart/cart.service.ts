@@ -76,13 +76,14 @@ export class CartService implements OnModuleInit {
                 })
                 .toPromise();
 
-            item.transport_price = parseFloat(transportPrice.cost);
+            item.transport_price = parseFloat(transportPrice.cost) * qtd;
         }
         item.price = ticket.price * qtd;
         await this.cartItemRepository.save(item);
 
         cart.cartItems.push(item);
-        cart.total_price = Number(cart.total_price) + item.price;
+        cart.total_price =
+            Number(cart.total_price) + item.price + item.transport_price;
         await this.cartRepository.save(cart);
 
         return item;
@@ -103,7 +104,8 @@ export class CartService implements OnModuleInit {
         }
 
         if (item.cart.id == cart.id) {
-            cart.total_price = Number(cart.total_price) - item.price;
+            cart.total_price =
+                Number(cart.total_price) - item.price - item.transport_price;
             await this.cartRepository.save(cart);
             return await this.cartItemRepository.remove(item);
         }

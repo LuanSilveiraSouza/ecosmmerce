@@ -47,4 +47,18 @@ export class TicketService implements OnModuleInit {
 
         return ticket;
     }
+
+    async updateQuantity(id: number, qtd: number): Promise<TicketEntity> {
+        const ticket = await this.ticketRepository.findOne({
+            where: { id: id },
+        });
+
+        if (qtd >= 0) {
+            ticket.purchased = qtd;
+        }
+
+        await this.ticketRepository.save(ticket);
+
+        return ticket;
+    }
 }
