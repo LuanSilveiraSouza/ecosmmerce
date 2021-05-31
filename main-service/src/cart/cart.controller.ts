@@ -5,20 +5,30 @@ import {
     Get,
     HttpException,
     HttpStatus,
+    OnModuleInit,
     Param,
     Post,
     Req,
     UsePipes,
     ValidationPipe,
 } from '@nestjs/common';
+import { Client, ClientKafka, EventPattern } from '@nestjs/microservices';
 import { Request } from 'express';
+import { kafkaOptions } from 'src/common/kafka/kafka.options';
 import { CartEntity } from './cart.entity';
 import { CartService } from './cart.service';
 import { AddItemDto } from './dto/add-item-dto';
 
 @Controller('carts')
-export class CartController {
+export class CartController implements OnModuleInit {
     constructor(private readonly cartService: CartService) {}
+
+    @Client(kafkaOptions)
+    client: ClientKafka;
+
+    onModuleInit() {
+        this.client.subscribeToResponseOf('orders');
+    }
 
     @Get()
     async findByUserId(@Req() req: Request): Promise<CartEntity> {
@@ -32,6 +42,8 @@ export class CartController {
                 HttpStatus.BAD_REQUEST,
             );
         }
+
+        this.client.emit<string>('orders', cart);
 
         return cart;
     }
@@ -75,5 +87,10 @@ export class CartController {
         }
 
         return result;
+    }
+
+    @EventPattern('orders')
+    async handleEntityCreated(payload: any) {
+        console.log(JSON.stringify(payload) + ' created');
     }
 }
