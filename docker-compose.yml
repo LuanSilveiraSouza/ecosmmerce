@@ -15,6 +15,7 @@ services:
         restart: on-failure
         depends_on:
             - postgres-db
+            - kafka
 
     transport-service:
         container_name: transport-service
@@ -30,6 +31,23 @@ services:
         restart: on-failure
         depends_on:
             - redis
+            - main-service
+
+    payment-service:
+        container_name: payment-service
+        build: './payment-service'
+        command: npm run start
+        env_file: ./.env
+        ports:
+            - ${PAYMENT_PORT}:${PAYMENT_PORT}
+        networks:
+            - webnet
+        volumes:
+            - ./payment-service:/app
+        restart: on-failure
+        depends_on:
+            - main-service
+            - kafka
 
     postgres-db:
         image: postgres:alpine
