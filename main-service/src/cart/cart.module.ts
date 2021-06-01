@@ -30,6 +30,7 @@ export class CartModule implements NestModule {
                 { path: 'carts', method: RequestMethod.GET },
                 { path: 'carts', method: RequestMethod.POST },
                 { path: 'carts/:id', method: RequestMethod.DELETE },
+                { path: 'carts/finish', method: RequestMethod.PUT },
             );
     }
 }

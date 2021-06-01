@@ -8,11 +8,12 @@ import {
     OnModuleInit,
     Param,
     Post,
+    Put,
     Req,
     UsePipes,
     ValidationPipe,
 } from '@nestjs/common';
-import { Client, ClientKafka, EventPattern } from '@nestjs/microservices';
+import { Client, ClientKafka } from '@nestjs/microservices';
 import { Request } from 'express';
 import { kafkaOptions } from 'src/common/kafka/kafka.options';
 import { CartEntity } from './cart.entity';
@@ -42,8 +43,6 @@ export class CartController implements OnModuleInit {
                 HttpStatus.BAD_REQUEST,
             );
         }
-
-        this.client.emit<string>('orders', cart);
 
         return cart;
     }
@@ -89,8 +88,14 @@ export class CartController implements OnModuleInit {
         return result;
     }
 
-    @EventPattern('orders')
-    async handleEntityCreated(payload: any) {
-        console.log(JSON.stringify(payload) + ' created');
+    @Put('/finish')
+    async finishCart(@Req() req: Request) {
+        const cart = await this.cartService.findByUserId(req['user'].id);
+
+        console.log(`Closing cart from user ${req['user'].name}`);
+
+        this.client.emit<string>('orders', JSON.stringify(cart));
+
+        return cart;
     }
 }
