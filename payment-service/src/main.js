@@ -1,21 +1,24 @@
 const { Kafka } = require('kafkajs');
+const MongoConnectionFactory = require('./database/connection');
 
-(async function() {
-	const kafka = new Kafka({
-		clientId: 'node-test-client',
-		brokers: [`${process.env.KAFKA_HOST}:29092`],
-	});
+(async function () {
+    const kafka = new Kafka({
+        clientId: 'node-test-client',
+        brokers: [`${process.env.KAFKA_HOST}:29092`],
+    });
 
-	const consumer = kafka.consumer({ groupId: 'test-group' });
+    const mongoClient = await MongoConnectionFactory();
 
-	await consumer.connect();
-	await consumer.subscribe({ topic: 'orders', fromBeginning: true });
+    const consumer = kafka.consumer({ groupId: 'test-group' });
 
-	await consumer.run({
-		eachMessage: async ({ topic, partition, message }) => {
-			if (topic == 'orders') {
+    await consumer.connect();
+    await consumer.subscribe({ topic: 'orders', fromBeginning: true });
+
+    await consumer.run({
+        eachMessage: async ({ topic, partition, message }) => {
+            if (topic == 'orders') {
                 console.log(message.value.toString());
             }
-		},
-	});
+        },
+    });
 })();
