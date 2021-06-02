@@ -90,10 +90,10 @@ services:
             MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
             MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS} 
         volumes:
-            - ./docker/mongodb/mongod.conf:/etc/mongod.conf
-            - ./docker/mongodb/initdb.d/:/docker-entrypoint-initdb.d/
-            - ./docker/mongodb/data/db/:/data/db/
-            - ./docker/mongodb/data/log/:/var/log/mongodb/
+            - ./infra/mongodb/mongod.conf:/etc/mongod.conf
+            - ./infra/mongodb/initdb.d/:/docker-entrypoint-initdb.d/
+            - ./infra/mongodb/data/db/:/data/db/
+            - ./infra/mongodb/data/log/:/var/log/mongodb/
         command: ["-f", "/etc/mongod.conf"]
 
     zookeeper:
@@ -120,7 +120,7 @@ services:
             KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
             KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
             KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-            KAFKA_LOG4J_LOGGERS: "kafka.controller=ERROR"
+            KAFKA_LOG4J_LOGGERS: "org.apache.zookeeper=OFF,org.apache.kafka=OFF,kafka=OFF,kafka.cluster=OFF,kafka.controller=OFF,kafka.coordinator=OFF,kafka.log=OFF,kafka.server=OFF,kafka.zookeeper=OFF,state.change.logger=OFF"
             KAFKA_LOG4J_ROOT_LOGLEVEL: ERROR 
             KAFKA_TOOLS_LOG4J_LOGLEVEL: ERROR
         volumes:

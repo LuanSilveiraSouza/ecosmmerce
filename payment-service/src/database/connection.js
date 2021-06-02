@@ -1,8 +1,8 @@
 const { MongoClient } = require('mongodb');
 
-const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}:27017/?poolSize=20&writeConcern=majority`;
-
 const MongoConnectionFactory = async () => {
+    const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_HOST}:27017/?poolSize=20&writeConcern=majority`;
+
     const client = new MongoClient(uri);
 
     try {
@@ -14,7 +14,7 @@ const MongoConnectionFactory = async () => {
         return client;
     } catch (error) {
         console.error(error);
-        
+
         await client.close();
 
         return null;
