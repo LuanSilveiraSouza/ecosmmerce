@@ -12,10 +12,10 @@ services:
             - webnet
         volumes:
             - ./main-service:/app
-        restart: on-failure
         depends_on:
             - postgres-db
             - kafka
+            - transport-service
 
     transport-service:
         container_name: transport-service
@@ -28,10 +28,8 @@ services:
             - webnet
         volumes:
             - ./transport-service:/go/src/
-        restart: on-failure
         depends_on:
             - redis
-            - main-service
 
     payment-service:
         container_name: payment-service
@@ -44,7 +42,6 @@ services:
             - webnet
         volumes:
             - ./payment-service:/app
-        restart: on-failure
         depends_on:
             - main-service
             - kafka
