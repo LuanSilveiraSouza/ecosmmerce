@@ -1,21 +1,21 @@
 version: '3'
 
 services:
-    main-service:
-        container_name: main-service
-        build: './main-service'
-        command: npm run start:debug
-        env_file: ./.env
-        ports:
-            - ${MAIN_PORT}:${MAIN_PORT}
-        networks:
-            - webnet
-        volumes:
-            - ./main-service:/app
-        depends_on:
-            - postgres-db
-            - kafka
-            - transport-service
+    # main-service:
+    #     container_name: main-service
+    #     build: './main-service'
+    #     command: npm run start:debug
+    #     env_file: ./.env
+    #     ports:
+    #         - ${MAIN_PORT}:${MAIN_PORT}
+    #     networks:
+    #         - webnet
+    #     volumes:
+    #         - ./main-service:/app
+    #     depends_on:
+    #         - postgres-db
+    #         - kafka
+    #         - transport-service
 
     transport-service:
         container_name: transport-service
@@ -43,7 +43,6 @@ services:
         volumes:
             - ./payment-service:/app
         depends_on:
-            - main-service
             - kafka
 
     postgres-db:

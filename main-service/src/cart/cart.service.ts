@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { Client, ClientGrpc } from '@nestjs/microservices';
+import { Client, ClientGrpcProxy } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TicketService } from 'src/ticket/ticket.service';
 import { UserService } from 'src/user/user.service';
@@ -20,7 +20,8 @@ export class CartService implements OnModuleInit {
         private readonly cartItemRepository: Repository<CartItemEntity>,
     ) {}
 
-    @Client(grpcOptions) private readonly client: ClientGrpc;
+    @Client(grpcOptions) private readonly client: ClientGrpcProxy;
+
     private grpcService: TransportService;
 
     onModuleInit() {
