@@ -18,7 +18,7 @@ export class CartService implements OnModuleInit {
         @InjectRepository(CartItemEntity)
         private readonly cartItemRepository: Repository<CartItemEntity>,
         @Inject('transport')
-        private client: ClientGrpc
+        private client: ClientGrpc,
     ) {}
 
     private grpcService: TransportService;
