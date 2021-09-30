@@ -7,7 +7,7 @@ const { PG_USER, PG_PASS, PG_DB, PG_HOST } = process.env;
 
 module.exports = {
     type: 'postgres',
-    host: PG_HOST,
+    host: 'localhost',
     port: 5432,
     username: PG_USER,
     password: PG_PASS,

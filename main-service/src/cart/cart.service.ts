@@ -1,12 +1,11 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { Client, ClientGrpc } from '@nestjs/microservices';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { ClientGrpc } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TicketService } from 'src/ticket/ticket.service';
 import { UserService } from 'src/user/user.service';
 import { Repository } from 'typeorm';
 import { CartEntity } from './cart.entity';
 import { CartItemEntity } from './cartItem.entity';
-import { grpcOptions } from '../common/pb/grpc.options';
 import { TransportService } from '../common/pb/transport.interface';
 
 @Injectable()
@@ -18,9 +17,10 @@ export class CartService implements OnModuleInit {
         private readonly cartRepository: Repository<CartEntity>,
         @InjectRepository(CartItemEntity)
         private readonly cartItemRepository: Repository<CartItemEntity>,
+        @Inject('transport')
+        private client: ClientGrpc
     ) {}
 
-    @Client(grpcOptions) private readonly client: ClientGrpc;
     private grpcService: TransportService;
 
     onModuleInit() {

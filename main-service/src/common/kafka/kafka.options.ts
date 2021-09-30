@@ -4,7 +4,7 @@ export const kafkaOptions: KafkaOptions = {
     transport: Transport.KAFKA,
     options: {
         client: {
-            brokers: [`${process.env.KAFKA_HOST}:29092`],
+            brokers: [`localhost:9092`],
             clientId: 'nestjs-client',
         },
         consumer: {

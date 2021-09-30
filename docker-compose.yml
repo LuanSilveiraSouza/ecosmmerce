@@ -16,6 +16,7 @@ services:
             - postgres-db
             - kafka
             - transport-service
+        profiles: ["prod"]
 
     transport-service:
         container_name: transport-service
@@ -43,7 +44,6 @@ services:
         volumes:
             - ./payment-service:/app
         depends_on:
-            - main-service
             - kafka
 
     postgres-db:

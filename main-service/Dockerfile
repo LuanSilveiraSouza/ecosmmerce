@@ -6,6 +6,8 @@ COPY . .
 
 RUN npm install
 
+RUN npm rebuild grpc --force
+
 RUN npm run build
 
 EXPOSE $MAIN_PORT
