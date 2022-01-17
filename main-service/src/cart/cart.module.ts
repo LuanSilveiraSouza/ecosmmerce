@@ -20,9 +20,7 @@ import { grpcOptions } from 'src/common/pb/grpc.options';
         TypeOrmModule.forFeature([CartEntity, CartItemEntity]),
         UserModule,
         TicketModule,
-        ClientsModule.register([
-            grpcOptions
-        ])
+        ClientsModule.register([grpcOptions]),
     ],
     providers: [CartService],
     controllers: [CartController],
