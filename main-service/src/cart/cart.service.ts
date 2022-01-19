@@ -1,8 +1,8 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TicketService } from 'src/ticket/ticket.service';
-import { UserService } from 'src/user/user.service';
+import { TicketService } from '../ticket/ticket.service';
+import { UserService } from '../user/user.service';
 import { Repository } from 'typeorm';
 import { CartEntity } from './cart.entity';
 import { CartItemEntity } from './cartItem.entity';

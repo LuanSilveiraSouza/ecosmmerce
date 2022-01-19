@@ -8,12 +8,12 @@ import { CartController } from './cart.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CartEntity } from './cart.entity';
 import { CartService } from './cart.service';
-import { AuthMiddleware } from 'src/common/middlewares/auth.middleware';
+import { AuthMiddleware } from '../common/middlewares/auth.middleware';
 import { CartItemEntity } from './cartItem.entity';
-import { TicketModule } from 'src/ticket/ticket.module';
-import { UserModule } from 'src/user/user.module';
+import { TicketModule } from '../ticket/ticket.module';
+import { UserModule } from '../user/user.module';
 import { ClientsModule } from '@nestjs/microservices';
-import { grpcOptions } from 'src/common/pb/grpc.options';
+import { grpcOptions } from '../common/pb/grpc.options';
 
 @Module({
     imports: [

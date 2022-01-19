@@ -1,8 +1,8 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Client, ClientGrpc } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
-import { grpcOptions } from 'src/common/pb/grpc.options';
-import { TransportService } from 'src/common/pb/transport.interface';
+import { grpcOptions } from '../common/pb/grpc.options';
+import { TransportService } from '../common/pb/transport.interface';
 import { Repository } from 'typeorm';
 import { TicketEntity } from './ticket.entity';
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { TicketEntity } from 'src/ticket/ticket.entity';
+import { TicketEntity } from '../ticket/ticket.entity';
 import {
     Column,
     Entity,

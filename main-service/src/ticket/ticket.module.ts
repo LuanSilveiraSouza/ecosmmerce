@@ -8,8 +8,8 @@ import { TicketController } from './ticket.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TicketEntity } from './ticket.entity';
 import { TicketService } from './ticket.service';
-import { AuthMiddleware } from 'src/common/middlewares/auth.middleware';
-import { UserModule } from 'src/user/user.module';
+import { AuthMiddleware } from '../common/middlewares/auth.middleware';
+import { UserModule } from '../user/user.module';
 
 @Module({
     imports: [TypeOrmModule.forFeature([TicketEntity]), UserModule],

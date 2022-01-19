@@ -6,7 +6,7 @@ import {
     PrimaryGeneratedColumn,
 } from 'typeorm';
 import { createHash } from 'crypto';
-import { CartEntity } from 'src/cart/cart.entity';
+import { CartEntity } from '../cart/cart.entity';
 
 @Entity('users')
 export class UserEntity {

@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { Client, ClientKafka } from '@nestjs/microservices';
 import { Request } from 'express';
-import { kafkaOptions } from 'src/common/kafka/kafka.options';
+import { kafkaOptions } from '../common/kafka/kafka.options';
 import { CartEntity } from './cart.entity';
 import { CartService } from './cart.service';
 import { AddItemDto } from './dto/add-item-dto';
