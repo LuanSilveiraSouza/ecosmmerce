@@ -23,6 +23,8 @@ func main() {
 	pb.RegisterTransportServiceServer(grpcServer, &transport.TransportService{})
 	reflection.Register(grpcServer)
 
+	fmt.Sprintln("Transport Service is up and running...")
+
 	err = grpcServer.Serve(server)
 
 	if err != nil {
