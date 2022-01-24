@@ -1,12 +1,12 @@
-FROM node:14.16.1-alpine3.10
+FROM node:14-alpine
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY . .
+COPY package*.json ./
 
 RUN npm install
 
-RUN npm rebuild grpc --force
+COPY . .
 
 RUN npm run build
 

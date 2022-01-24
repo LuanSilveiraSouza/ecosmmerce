@@ -1,3 +1,5 @@
 .env
 
 infra/mongodb/data
+
+bkp-main-service/
