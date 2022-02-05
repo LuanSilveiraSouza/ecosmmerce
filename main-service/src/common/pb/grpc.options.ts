@@ -7,6 +7,6 @@ export const grpcOptions: ClientProviderOptions = {
   options: {
     url: `localhost:${process.env.GRPC_PORT || 3131}`,
     package: 'transport',
-    protoPath: join(__dirname, './transport.proto'),
+    protoPath: join(__dirname, '../../../../infra/proto/transport.proto'),
   },
 };
