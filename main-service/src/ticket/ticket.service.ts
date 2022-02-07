@@ -1,7 +1,6 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { Client, ClientGrpc } from '@nestjs/microservices';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { ClientGrpc } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
-import { grpcOptions } from '../common/pb/grpc.options';
 import { TransportService } from '../common/pb/transport.interface';
 import { Repository } from 'typeorm';
 import { TicketEntity } from './ticket.entity';
@@ -9,16 +8,17 @@ import { TicketEntity } from './ticket.entity';
 @Injectable()
 export class TicketService implements OnModuleInit {
   constructor(
+    @Inject('GRPC_SERVICE')
+    private readonly grpcClient: ClientGrpc,
     @InjectRepository(TicketEntity)
     private readonly ticketRepository: Repository<TicketEntity>,
   ) {}
 
-  @Client(grpcOptions) private readonly client: ClientGrpc;
   private grpcService: TransportService;
 
   onModuleInit() {
     this.grpcService =
-      this.client.getService<TransportService>('TransportService');
+      this.grpcClient.getService<TransportService>('TransportService');
   }
 
   async findAll(): Promise<TicketEntity[]> {

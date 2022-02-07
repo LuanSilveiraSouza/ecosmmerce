@@ -13,14 +13,26 @@ import { CartItemEntity } from './cartItem.entity';
 import { TicketModule } from '../ticket/ticket.module';
 import { UserModule } from '../user/user.module';
 import { ClientsModule } from '@nestjs/microservices';
-import { grpcOptions } from '../common/pb/grpc.options';
+import { ConfigService } from '@nestjs/config';
+import { getGRPCOptions } from 'src/common/pb/grpc.config';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([CartEntity, CartItemEntity]),
     UserModule,
     TicketModule,
-    ClientsModule.register([grpcOptions]),
+    ClientsModule.registerAsync([
+      {
+        name: 'GRPC_SERVICE',
+        inject: [ConfigService],
+        useFactory: (configService: ConfigService) => {
+          return getGRPCOptions(
+            configService.get('GRPC_HOST'),
+            configService.get('GRPC_PORT'),
+          );
+        },
+      },
+    ]),
   ],
   providers: [CartService],
   controllers: [CartController],

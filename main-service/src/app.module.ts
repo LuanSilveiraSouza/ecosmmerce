@@ -12,7 +12,10 @@ import { UserModule } from './user/user.module';
     UserModule,
     CartModule,
     TicketModule,
-    ConfigModule.forRoot({ envFilePath: '../.env', isGlobal: true }),
+    ConfigModule.forRoot({
+      envFilePath: `../.env.${process.env.NODE_ENV == 'dev' ? 'dev' : ''}`,
+      isGlobal: true,
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

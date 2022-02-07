@@ -33,6 +33,7 @@ services:
             - redis
 
     postgres-db:
+        container_name: postgres
         image: postgres:alpine
         env_file: ./.env
         environment:
@@ -50,6 +51,7 @@ services:
             - pgdata:/var/lib/postgresql/data
             
     redis:
+        container_name: redis
         image: redis:alpine
         hostname: redis
         ports:

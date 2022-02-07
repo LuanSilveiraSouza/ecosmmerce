@@ -1,4 +1,6 @@
 .env
+.env.dev
+.env.prod
 
 infra/mongodb/data
 

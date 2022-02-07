@@ -34,7 +34,6 @@ export class CartController implements OnModuleInit {
   @Get()
   async findByUserId(@Req() req: Request): Promise<CartEntity> {
     const cart = await this.cartService.findByUserId(req['user'].id);
-    console.log(req['user']);
 
     if (!cart) {
       throw new HttpException(

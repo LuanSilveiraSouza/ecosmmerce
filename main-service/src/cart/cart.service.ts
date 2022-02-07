@@ -11,21 +11,21 @@ import { TransportService } from '../common/pb/transport.interface';
 @Injectable()
 export class CartService implements OnModuleInit {
   constructor(
+    @Inject('GRPC_SERVICE')
+    private readonly grpcClient: ClientGrpc,
     private readonly userService: UserService,
     private readonly ticketService: TicketService,
     @InjectRepository(CartEntity)
     private readonly cartRepository: Repository<CartEntity>,
     @InjectRepository(CartItemEntity)
     private readonly cartItemRepository: Repository<CartItemEntity>,
-    @Inject('transport')
-    private client: ClientGrpc,
   ) {}
 
   private grpcService: TransportService;
 
   onModuleInit() {
     this.grpcService =
-      this.client.getService<TransportService>('TransportService');
+      this.grpcClient.getService<TransportService>('TransportService');
   }
 
   async findByUserId(id: number): Promise<CartEntity> {
