@@ -35,7 +35,7 @@ E-Cosmmerce is a E-Commerce platform to buy trips to planets around the Cosmos :
 ```bash
 
 # Install protobuf compiler and go plugin by following this tutorial: https://grpc.io/docs/languages/go/quickstart/
-$ protoc -I=infra/proto/ --go_out=./transport-service --go-grpc_out=./transport-service infra/proto/transport.proto
+$ protoc -I=proto/ --go_out=./transport-service --go-grpc_out=./transport-service proto/transport.proto
 
 ```
 
