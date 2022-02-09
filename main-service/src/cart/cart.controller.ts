@@ -5,6 +5,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  Inject,
   OnModuleInit,
   Param,
   Patch,
@@ -13,23 +14,14 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { Client, ClientKafka } from '@nestjs/microservices';
 import { Request } from 'express';
-import { kafkaOptions } from '../common/kafka/kafka.options';
 import { CartEntity } from './cart.entity';
 import { CartService } from './cart.service';
 import { AddItemDto } from './dto/add-item-dto';
 
 @Controller('carts')
-export class CartController implements OnModuleInit {
+export class CartController {
   constructor(private readonly cartService: CartService) {}
-
-  @Client(kafkaOptions)
-  client: ClientKafka;
-
-  onModuleInit() {
-    this.client.subscribeToResponseOf('orders');
-  }
 
   @Get()
   async findByUserId(@Req() req: Request): Promise<CartEntity> {
@@ -93,8 +85,6 @@ export class CartController implements OnModuleInit {
     const cart = await this.cartService.findByUserId(req['user'].id);
 
     console.log(`Closing cart from user ${req['user'].name}`);
-
-    this.client.emit<string>('orders', JSON.stringify(cart));
 
     return cart;
   }

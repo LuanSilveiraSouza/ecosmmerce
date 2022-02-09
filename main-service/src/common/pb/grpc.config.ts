@@ -5,7 +5,7 @@ export const getGRPCOptions = (
   grpcHost: string,
   grpcPort: number,
 ): ClientProviderOptions => ({
-  name: 'transport',
+  name: 'TRANSPORT_SERVICE',
   transport: Transport.GRPC,
   options: {
     url: `${grpcHost}:${grpcPort}`,
