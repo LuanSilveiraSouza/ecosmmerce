@@ -4,9 +4,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TicketService } from '../ticket/ticket.service';
 import { UserService } from '../user/user.service';
 import { Repository } from 'typeorm';
-import { CartEntity } from './cart.entity';
+import { CartEntity, CartStatus } from './cart.entity';
 import { CartItemEntity } from './cartItem.entity';
 import { TransportService } from '../common/pb/transport.interface';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class CartService implements OnModuleInit {
@@ -35,15 +36,16 @@ export class CartService implements OnModuleInit {
       return null;
     }
 
-    if (!user.cart) {
+    if (!user.carts) {
       const cart = new CartEntity();
       cart.total_price = 0;
+      cart.status = CartStatus.ACTIVE;
       cart.user = user;
       await this.cartRepository.save(cart);
       return cart;
     }
 
-    return user.cart;
+    return user.carts.find((cart) => cart.status === CartStatus.ACTIVE);
   }
 
   async addItem(
@@ -68,12 +70,12 @@ export class CartService implements OnModuleInit {
     item.qtd = qtd;
     item.transport_price = 0;
     if (origin) {
-      const transportPrice = await this.grpcService
-        .calcTransport({
+      const transportPrice = await firstValueFrom(
+        this.grpcService.calcTransport({
           origin,
           destiny: ticket.travel.destiny,
-        })
-        .toPromise();
+        }),
+      );
 
       item.transport_price = parseFloat(transportPrice.cost) * qtd;
     }

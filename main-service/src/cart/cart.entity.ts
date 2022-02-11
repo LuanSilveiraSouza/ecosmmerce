@@ -4,12 +4,17 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { CartItemEntity } from './cartItem.entity';
+
+export enum CartStatus {
+  ACTIVE = 'active',
+  FINISHED = 'finished',
+}
 
 @Entity('carts')
 export class CartEntity {
@@ -19,7 +24,10 @@ export class CartEntity {
   @Column()
   total_price: number;
 
-  @OneToOne((type) => UserEntity)
+  @Column()
+  status: CartStatus;
+
+  @ManyToOne((type) => UserEntity, (user) => user.carts)
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 

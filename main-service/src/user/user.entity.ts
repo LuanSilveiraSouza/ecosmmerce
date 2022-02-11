@@ -2,7 +2,7 @@ import {
   BeforeInsert,
   Column,
   Entity,
-  OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { createHash } from 'crypto';
@@ -26,6 +26,6 @@ export class UserEntity {
       .digest('hex');
   }
 
-  @OneToOne(() => CartEntity, (cart) => cart.user)
-  cart: CartEntity;
+  @OneToMany(() => CartEntity, (cart) => cart.user)
+  carts: CartEntity[];
 }

@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TransportService } from '../common/pb/transport.interface';
 import { Repository } from 'typeorm';
 import { TicketEntity } from './ticket.entity';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class TicketService implements OnModuleInit {
@@ -34,12 +35,12 @@ export class TicketService implements OnModuleInit {
     });
 
     if (origin) {
-      const transportPrice = await this.grpcService
-        .calcTransport({
+      const transportPrice = await firstValueFrom(
+        this.grpcService.calcTransport({
           origin,
           destiny: ticket.travel.destiny,
-        })
-        .toPromise();
+        }),
+      );
 
       return { ...ticket, transport_price: transportPrice };
     }
