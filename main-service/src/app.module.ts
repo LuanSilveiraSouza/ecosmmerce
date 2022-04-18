@@ -13,7 +13,7 @@ import { UserModule } from './user/user.module';
     CartModule,
     TicketModule,
     ConfigModule.forRoot({
-      envFilePath: `../.env.${process.env.NODE_ENV == 'dev' ? 'dev' : ''}`,
+      envFilePath: `../.env`,
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({

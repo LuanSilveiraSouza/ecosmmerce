@@ -1,8 +1,8 @@
-version: '3'
+version: '3.7'
 
 services:
     main-service:
-        container_name: main-service
+        container_name: ecosmmerce_main-service
         build: './main-service'
         command: npm run start
         env_file: .env
@@ -16,10 +16,10 @@ services:
         depends_on:
             - postgres-db
             - transport-service
-        profiles: ["prod"]
+        profiles: [ "prod" ]
 
     transport-service:
-        container_name: transport-service
+        container_name: ecosmmerce_transport-service
         build: './transport-service'
         command: go run main.go
         env_file: .env
@@ -33,25 +33,22 @@ services:
             - redis
 
     postgres-db:
-        container_name: postgres
+        container_name: ecosmmerce_postgres
         image: postgres:alpine
-        env_file: ./.env
+        env_file: .env
         environment:
-            POSTGRES_DB: ${PG_DB}
-            POSTGRES_USER: ${PG_USER}
-            POSTGRES_PASSWORD: ${PG_PASS} 
-            PG_DATA: /var/lib/postgresql/data
+            - POSTGRES_DB=PG_DB
+            - POSTGRES_USER=PG_USER
+            - POSTGRES_PASSWORD=PG_PASS
         ports:
-            - "5432:5432"
-        expose:
-            - '5432'
+            - '5432:5432'
         networks:
             - webnet
         volumes:
-            - pgdata:/var/lib/postgresql/data
-            
+            - /home/luan/dev/docker-volumes/pg:/var/lib/postgresql/data
+
     redis:
-        container_name: redis
+        container_name: ecosmmerce_redis
         image: redis:alpine
         hostname: redis
         ports:
@@ -63,6 +60,3 @@ services:
 
 networks:
     webnet:
-
-volumes:
-    pgdata:

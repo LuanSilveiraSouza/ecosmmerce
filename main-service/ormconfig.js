@@ -3,7 +3,7 @@ const path = require('path');
 const { config } = require('dotenv');
 
 config({
-  path: path.resolve(__dirname, `../.env.dev`),
+  path: path.resolve(__dirname, `../.env`),
 });
 
 const { PG_USER, PG_PASS, PG_DB, PG_HOST } = process.env;
